@@ -21,10 +21,17 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             background-color: slategrey;
         }
 
-
-        img {
+        .grid-container img {
             width: 300px;
             height: 225px;
+        }
+
+        .grid-container {
+            max-width: 750px;
+        }
+
+        .grid-50 {
+            margin-bottom: 70px;
         }
 
         .img-container {
@@ -61,6 +68,11 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             height: 30px;
         }
 
+        #square2 {
+            width: 30px;
+            height: 100%;
+        }
+
         #keyhole {
             border-radius: 50%;
             width: 100px;
@@ -89,36 +101,62 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
 
 
 <div class="grid-container">
-    <div class="grid-33">
-        <div id="content-square" class="img-container">
-
-            <img src="http://41.media.tumblr.com/c7818ab345d1055b8426eda14e2533e4/tumblr_nh9l0otq1C1ticazxo1_500.jpg" class="bg">
-
-            <div id="square" class="fg">
-                <img id="squareBg" src="http://41.media.tumblr.com/c7818ab345d1055b8426eda14e2533e4/tumblr_nh9l0otq1C1ticazxo1_500.jpg">
-            </div>
-            <div class="frame"></div>
-        </div>
-    </div>
-    <div class="grid-33">
+    <div class="grid-50">
         <div id="content-keyhole" class="img-container">
             <div id="keyhole" class="fg">
-                <img id="keyholeBg" src="http://36.media.tumblr.com/cd767c88a91e6a6c1001f10f90243fab/tumblr_nhfhk3CRwQ1ticazxo5_500.jpg">
+                <img id="keyholeBg"
+                     src="http://36.media.tumblr.com/cd767c88a91e6a6c1001f10f90243fab/tumblr_nhfhk3CRwQ1ticazxo5_500.jpg">
             </div>
             <div class="frame"></div>
         </div>
     </div>
-    <div class="grid-33">
+    <div class="grid-50">
         <div id="content-circle" class="img-container">
-            <img src="http://40.media.tumblr.com/56a769d059eb1c63bbc75970c218f72a/tumblr_nhj6vorIwt1ticazxo4_500.jpg" class="bg">
+            <img src="http://40.media.tumblr.com/56a769d059eb1c63bbc75970c218f72a/tumblr_nhj6vorIwt1ticazxo4_500.jpg"
+                 class="bg">
 
             <div id="circle" class="fg">
-                <img id="circleBg" src="http://40.media.tumblr.com/56a769d059eb1c63bbc75970c218f72a/tumblr_nhj6vorIwt1ticazxo4_500.jpg">
+                <img id="circleBg"
+                     src="http://40.media.tumblr.com/56a769d059eb1c63bbc75970c218f72a/tumblr_nhj6vorIwt1ticazxo4_500.jpg">
             </div>
             <div class="frame"></div>
         </div>
     </div>
 </div>
+<div class="grid-container">
+    <div class="grid-50">
+        <div id="content-square2" class="img-container">
+
+            <img src="http://41.media.tumblr.com/cc1919fa686b1240ac7f8906687f612c/tumblr_nhn06pewkQ1ticazxo1_500.jpg"
+                 class="bg">
+
+            <div id="square2" class="fg">
+                <img id="squareBg2"
+                     src="http://41.media.tumblr.com/cc1919fa686b1240ac7f8906687f612c/tumblr_nhn06pewkQ1ticazxo1_500.jpg">
+            </div>
+            <div class="frame"></div>
+        </div>
+    </div>
+    <div class="grid-50">
+        <div id="content-square" class="img-container">
+
+            <img src="http://41.media.tumblr.com/c7818ab345d1055b8426eda14e2533e4/tumblr_nh9l0otq1C1ticazxo1_500.jpg"
+                 class="bg">
+
+            <div id="square" class="fg">
+                <img id="squareBg"
+                     src="http://41.media.tumblr.com/c7818ab345d1055b8426eda14e2533e4/tumblr_nh9l0otq1C1ticazxo1_500.jpg">
+            </div>
+            <div class="frame"></div>
+        </div>
+    </div>
+</div>
+
+<a href="https://github.com/maersu/frustrator">
+    <img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+         alt="Fork me on GitHub"
+         data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
 
 
 <script>
@@ -136,6 +174,12 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             var y = e.pageY - this.offsetTop - 15;
             $('#square').css({'transform': "translate(0px, " + y + "px)"});
             $('#squareBg').css({'transform': "translate(0px, " + -y + "px)"});
+        }, throttle));
+
+        $("#content-square2").mousemove(_.throttle(function (e) {
+            var x = e.pageX - this.offsetLeft - 40;
+            $('#square2').css({'transform': "translate(" + x + "px, 0px)"});
+            $('#squareBg2').css({'transform': "translate(" + -x + "px, 0px)"});
         }, throttle));
 
         $("#content-keyhole").mousemove(_.throttle(function (e) {
