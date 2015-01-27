@@ -17,8 +17,10 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
     <style>
 
         body {
-            padding: 40px;
+            padding: 50px;
             background-color: slategrey;
+            font-family: "Helvetica Neue", "Roboto", sans-serif;
+            color: whitesmoke;
         }
 
         .grid-container img {
@@ -32,6 +34,12 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
 
         .grid-50 {
             margin-bottom: 70px;
+        }
+
+        #cap {
+            position: fixed;
+            top: 10px;
+            left: 10px;
         }
 
         .img-container {
@@ -99,6 +107,9 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
 
 <body>
 
+<div id="cap">
+    #css #transform #translate #experiment #image
+</div>
 
 <div class="grid-container">
     <div class="grid-50">
@@ -161,7 +172,7 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
 
 <script>
     $(document).ready(function () {
-        var throttle = 50;
+        var throttle = 40;
 
         $("#content-circle").mousemove(_.throttle(function (e) {
             var x = e.pageX - this.offsetLeft - 40;
