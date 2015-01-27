@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta name="viewport" content="width=320; user-scalable=no"/>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Frustrator</title>
+
+    <link rel="stylesheet" type="text/css" href="
+https://cdnjs.cloudflare.com/ajax/libs/unsemantic/0/unsemantic-grid-responsive-rtl.css">
+    <link rel="stylesheet" type="text/css" href="
+https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
+
+    <script type="text/javascript" charset="utf-8" src="https://code.jquery.com/jquery-git2.min.js"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+
+    <style>
+
+        body {
+            padding: 40px;
+            background-color: slategrey;
+        }
+
+
+        img {
+            width: 300px;
+            height: 225px;
+        }
+
+        .img-container {
+            width: 300px;
+            height: 225px;
+            position: relative;
+            margin: auto;
+        }
+
+        .bg {
+            -webkit-filter: blur(10px);
+            filter: blur(10px);
+            /*-webkit-filter: sepia(1);*/
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .fg {
+            position: absolute;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+        }
+
+        #circle {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+        }
+
+        #square {
+            width: 100%;
+            height: 30px;
+        }
+
+        #keyhole {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            top: 50px;
+            left: 100px;
+        }
+
+        #keyholeBg {
+            transform: translate(-50%, -50%)
+        }
+        
+        .frame {
+            border: 15px solid whitesmoke;
+            width: 99%;
+            height: 99%;
+            position: absolute;
+            left: -4%;
+            top: -6%;
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+<div class="grid-container">
+    <div class="grid-33">
+        <div id="content-square" class="img-container">
+
+            <img src="http://41.media.tumblr.com/c7818ab345d1055b8426eda14e2533e4/tumblr_nh9l0otq1C1ticazxo1_500.jpg" class="bg">
+
+            <div id="square" class="fg">
+                <img id="squareBg" src="http://41.media.tumblr.com/c7818ab345d1055b8426eda14e2533e4/tumblr_nh9l0otq1C1ticazxo1_500.jpg">
+            </div>
+            <div class="frame"></div>
+        </div>
+    </div>
+    <div class="grid-33">
+        <div id="content-keyhole" class="img-container">
+            <div id="keyhole" class="fg">
+                <img id="keyholeBg" src="http://36.media.tumblr.com/cd767c88a91e6a6c1001f10f90243fab/tumblr_nhfhk3CRwQ1ticazxo5_500.jpg">
+            </div>
+            <div class="frame"></div>
+        </div>
+    </div>
+    <div class="grid-33">
+        <div id="content-circle" class="img-container">
+            <img src="http://40.media.tumblr.com/56a769d059eb1c63bbc75970c218f72a/tumblr_nhj6vorIwt1ticazxo4_500.jpg" class="bg">
+
+            <div id="circle" class="fg">
+                <img id="circleBg" src="http://40.media.tumblr.com/56a769d059eb1c63bbc75970c218f72a/tumblr_nhj6vorIwt1ticazxo4_500.jpg">
+            </div>
+            <div class="frame"></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        var throttle = 50;
+
+        $("#content-circle").mousemove(_.throttle(function (e) {
+            var x = e.pageX - this.offsetLeft - 40;
+            var y = e.pageY - this.offsetTop - 40;
+            $('#circle').css({'transform': "translate(" + x + "px, " + y + "px)"});
+            $('#circleBg').css({'transform': "translate(" + -x + "px, " + -y + "px)"});
+        }, throttle));
+
+        $("#content-square").mousemove(_.throttle(function (e) {
+            var y = e.pageY - this.offsetTop - 15;
+            $('#square').css({'transform': "translate(0px, " + y + "px)"});
+            $('#squareBg').css({'transform': "translate(0px, " + -y + "px)"});
+        }, throttle));
+
+        $("#content-keyhole").mousemove(_.throttle(function (e) {
+            var x = e.pageX - this.offsetLeft - 50;
+            var y = e.pageY - this.offsetTop - 50;
+
+            x = Math.min(200, Math.max(0, x));
+            y = Math.min(120, Math.max(0, y));
+
+            $('#keyholeBg').css({'transform': "translate(" + -x + "px, " + -y + "px)"});
+        }, throttle));
+
+    });
+</script>
+
+</body>
+
+</html>
