@@ -6,8 +6,6 @@
     <title>Frustrator</title>
 
     <link rel="stylesheet" type="text/css" href="
-https://cdnjs.cloudflare.com/ajax/libs/unsemantic/0/unsemantic-grid-responsive-rtl.css">
-    <link rel="stylesheet" type="text/css" href="
 https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
 
     <script type="text/javascript" charset="utf-8" src="https://code.jquery.com/jquery-git2.min.js"></script>
@@ -33,7 +31,7 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
         }
 
         .grid-container {
-            max-width: 750px;
+            margin: auto;
         }
 
         .grid-50 {
@@ -55,7 +53,6 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
         .bg {
             -webkit-filter: blur(10px);
             filter: blur(10px);
-            /*-webkit-filter: sepia(1);*/
             position: absolute;
             top: 0;
             left: 0;
@@ -117,7 +114,7 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
 
 <div class="grid-container" id="cap">
     <div class="grid-100">
-        #css #transform #translate #experiment #image #mousemove #filter #deviceorientation <a
+        #css #transform #translate3d #mousemove #filter #deviceorientation <a
             href="https://github.com/maersu/frustrator">@github</a>
     </div>
 </div>
@@ -200,20 +197,20 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             x = x - 40;
             y = y - 40;
 
-            $('#circle').css({'transform': "translate(" + x + "px, " + y + "px)"});
-            $('#circleBg').css({'transform': "translate(" + -x + "px, " + -y + "px)"});
+            $('#circle').css({'transform': "translate3d(" + x + "px, " + y + "px, 0px)"});
+            $('#circleBg').css({'transform': "translate3d(" + -x + "px, " + -y + "px, 0px)"});
         };
 
         var setSquare = function (x, y) {
-            y = y - 15;
-            $('#square').css({'transform': "translate(0px, " + y + "px)"});
-            $('#squareBg').css({'transform': "translate(0px, " + -y + "px)"});
+            y = y - 10;
+            $('#square').css({'transform': "translate3d(0px, " + y + "px, 0px)"});
+            $('#squareBg').css({'transform': "translate3d(0px, " + -y + "px, 0px)"});
         };
 
         var setSquare2 = function (x, y) {
-            x = x - 40;
-            $('#square2').css({'transform': "translate(" + x + "px, 0px)"});
-            $('#squareBg2').css({'transform': "translate(" + -x + "px, 0px)"});
+            x = x - 10;
+            $('#square2').css({'transform': "translate3d(" + x + "px, 0px, 0px)"});
+            $('#squareBg2').css({'transform': "translate3d(" + -x + "px, 0px, 0px)"});
         };
 
         var setKeyhole = function (x, y) {
@@ -222,19 +219,20 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             x = Math.min(200, Math.max(0, x));
             y = Math.min(120, Math.max(0, y));
 
-            $('#keyholeBg').css({'transform': "translate(" + -x + "px, " + -y + "px)"});
+            $('#keyholeBg').css({'transform': "translate3d(" + -x + "px, " + -y + "px, 0px)"});
         };
+
+
 
         deviceOrientation = _.throttle(function (event) {
 
             if (_.isUndefined(currentFilter)) {
                 return
             }
-
-
+            var orient = window.innerHeight > window.innerWidth;
             position = {
-                y: Math.round(window.innerHeight > window.innerWidth ? event.beta : event.gamma),
-                x: Math.round(window.innerHeight > window.innerWidth ? event.gamma : event.beta)
+                y: Math.round(orient ? event.beta : event.gamma),
+                x: Math.round(orient ? event.gamma : event.beta)
             }
 
             if (_.isUndefined(box)) {
@@ -281,6 +279,7 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             $(filter.q).on('click', function () {
                 $(".img-container").removeClass('active');
                 $(filter.q).addClass('active');
+                box = undefined;
                 currentFilter = filter.fn;
             })
         })
