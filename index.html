@@ -184,7 +184,7 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
     $(document).ready(function () {
         var throttle = 40,
                 deviceOrientation,
-                halfRange = 10,
+                halfRange = 8,
                 oldPosition,
                 position,
                 filters,
@@ -223,7 +223,6 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
         };
 
 
-
         deviceOrientation = _.throttle(function (event) {
 
             if (_.isUndefined(currentFilter)) {
@@ -231,8 +230,8 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             }
             var orient = window.innerHeight > window.innerWidth;
             position = {
-                y: Math.round(orient ? event.beta : event.gamma),
-                x: Math.round(orient ? event.gamma : event.beta)
+                y: orient ? event.beta : event.gamma,
+                x: orient ? event.gamma : event.beta
             }
 
             if (_.isUndefined(box)) {
