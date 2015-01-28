@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <meta name="viewport" content="width=320; user-scalable=no"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>Frustrator</title>
 
@@ -17,9 +17,13 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
     <style>
 
         body {
-            padding: 50px;
+            padding: 30px 0;
             background-color: slategrey;
             font-family: "Helvetica Neue", "Roboto", sans-serif;
+            color: whitesmoke;
+        }
+
+        a {
             color: whitesmoke;
         }
 
@@ -37,9 +41,8 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
         }
 
         #cap {
-            position: fixed;
-            top: 10px;
-            left: 10px;
+            text-align: center;
+            margin-bottom: 40px;
         }
 
         .img-container {
@@ -102,25 +105,24 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             top: -6%;
         }
 
+        .active .frame {
+            border: 15px solid red;
+        }
+
+
     </style>
 </head>
 
 <body>
 
-<div id="cap">
-    #css #transform #translate #experiment #image
+<div class="grid-container" id="cap">
+    <div class="grid-100">
+        #css #transform #translate #experiment #image #mousemove #filter #deviceorientation <a
+            href="https://github.com/maersu/frustrator">@github</a>
+    </div>
 </div>
 
 <div class="grid-container">
-    <div class="grid-50">
-        <div id="content-keyhole" class="img-container">
-            <div id="keyhole" class="fg">
-                <img id="keyholeBg"
-                     src="http://36.media.tumblr.com/cd767c88a91e6a6c1001f10f90243fab/tumblr_nhfhk3CRwQ1ticazxo5_500.jpg">
-            </div>
-            <div class="frame"></div>
-        </div>
-    </div>
     <div class="grid-50">
         <div id="content-circle" class="img-container">
             <img src="http://40.media.tumblr.com/56a769d059eb1c63bbc75970c218f72a/tumblr_nhj6vorIwt1ticazxo4_500.jpg"
@@ -133,8 +135,6 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             <div class="frame"></div>
         </div>
     </div>
-</div>
-<div class="grid-container">
     <div class="grid-50">
         <div id="content-square2" class="img-container">
 
@@ -144,6 +144,17 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             <div id="square2" class="fg">
                 <img id="squareBg2"
                      src="http://41.media.tumblr.com/c7818ab345d1055b8426eda14e2533e4/tumblr_nh9l0otq1C1ticazxo1_500.jpg">
+            </div>
+            <div class="frame"></div>
+        </div>
+    </div>
+</div>
+<div class="grid-container">
+    <div class="grid-50">
+        <div id="content-keyhole" class="img-container">
+            <div id="keyhole" class="fg">
+                <img id="keyholeBg"
+                     src="http://36.media.tumblr.com/cd767c88a91e6a6c1001f10f90243fab/tumblr_nhfhk3CRwQ1ticazxo5_500.jpg">
             </div>
             <div class="frame"></div>
         </div>
@@ -163,47 +174,118 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
     </div>
 </div>
 
-<a href="https://github.com/maersu/frustrator">
-    <img style="position: absolute; top: 0; right: 0; border: 0;"
-         src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
-         alt="Fork me on GitHub"
-         data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-
-
 <script>
-    $(document).ready(function () {
-        var throttle = 40;
 
-        $("#content-circle").mousemove(_.throttle(function (e) {
-            var x = e.pageX - this.offsetLeft - 40;
-            var y = e.pageY - this.offsetTop - 40;
+    var calcRate = function (value, min, max) {
+
+                return Math.min(1, Math.max(0, (value - min) / (max - min)));
+            },
+            imgX = 300,
+            imgY = 225;
+
+
+    $(document).ready(function () {
+        var throttle = 40,
+                deviceOrientation,
+                halfRange = 10,
+                oldPosition,
+                position,
+                filters,
+                absoluteX,
+                absoluteY,
+                currentFilter,
+                box;
+
+        var setCircle = function (x, y) {
+            x = x - 40;
+            y = y - 40;
+
             $('#circle').css({'transform': "translate(" + x + "px, " + y + "px)"});
             $('#circleBg').css({'transform': "translate(" + -x + "px, " + -y + "px)"});
-        }, throttle));
+        };
 
-        $("#content-square").mousemove(_.throttle(function (e) {
-            var y = e.pageY - this.offsetTop - 15;
+        var setSquare = function (x, y) {
+            y = y - 15;
             $('#square').css({'transform': "translate(0px, " + y + "px)"});
             $('#squareBg').css({'transform': "translate(0px, " + -y + "px)"});
-        }, throttle));
+        };
 
-        $("#content-square2").mousemove(_.throttle(function (e) {
-            var x = e.pageX - this.offsetLeft - 40;
+        var setSquare2 = function (x, y) {
+            x = x - 40;
             $('#square2').css({'transform': "translate(" + x + "px, 0px)"});
             $('#squareBg2').css({'transform': "translate(" + -x + "px, 0px)"});
-        }, throttle));
+        };
 
-        $("#content-keyhole").mousemove(_.throttle(function (e) {
-            var x = e.pageX - this.offsetLeft - 50;
-            var y = e.pageY - this.offsetTop - 50;
-
+        var setKeyhole = function (x, y) {
+            x = x - 50;
+            y = y - 50;
             x = Math.min(200, Math.max(0, x));
             y = Math.min(120, Math.max(0, y));
 
             $('#keyholeBg').css({'transform': "translate(" + -x + "px, " + -y + "px)"});
-        }, throttle));
+        };
 
-    });
+        deviceOrientation = _.throttle(function (event) {
+
+            if (_.isUndefined(currentFilter)) {
+                return
+            }
+
+
+            position = {
+                y: Math.round(window.innerHeight > window.innerWidth ? event.beta : event.gamma),
+                x: Math.round(window.innerHeight > window.innerWidth ? event.gamma : event.beta)
+            }
+
+            if (_.isUndefined(box)) {
+                box = {
+                    maxX: position.x + halfRange,
+                    minX: position.x - halfRange,
+                    maxY: position.y + halfRange,
+                    minY: position.y - halfRange
+                };
+                oldPosition = position;
+                return
+            }
+
+            if (_.isEqual(oldPosition, position)) {
+                return;
+            }
+
+            oldPosition = position;
+
+            absoluteX = imgX * calcRate(position.x, box.minX, box.maxX);
+            absoluteY = imgY * calcRate(position.y, box.minY, box.maxY);
+
+            currentFilter(absoluteX, absoluteY);
+
+        }, 50);
+
+        window.addEventListener('deviceorientation', deviceOrientation, false);
+
+
+        filters = [
+            {q: "#content-circle", fn: setCircle},
+            {q: "#content-square", fn: setSquare},
+            {q: "#content-square2", fn: setSquare2},
+            {q: "#content-keyhole", fn: setKeyhole}
+        ]
+
+        _.each(filters, function (filter) {
+            $(filter.q).mousemove(_.throttle(function (e) {
+                filter.fn(e.pageX - this.offsetLeft, e.pageY - this.offsetTop)
+            }, throttle));
+        });
+
+        _.each(filters, function (filter) {
+            $(filter.q).on('click', function () {
+                $(".img-container").removeClass('active');
+                $(filter.q).addClass('active');
+                currentFilter = filter.fn;
+            })
+        })
+
+    })
 </script>
 
 </body>
