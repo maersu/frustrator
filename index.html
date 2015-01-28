@@ -4,7 +4,7 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>Frustrator</title>
-
+    <link href='http://fonts.googleapis.com/css?family=Rammetto+One' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="
 https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
 
@@ -51,8 +51,8 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
         }
 
         .bg {
-            -webkit-filter: blur(10px);
-            filter: blur(10px);
+            -webkit-filter: blur(15px);
+            filter: blur(15px);
             position: absolute;
             top: 0;
             left: 0;
@@ -63,6 +63,19 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             overflow: hidden;
             top: 0;
             left: 0;
+        }
+
+        .frame {
+            border: 15px solid whitesmoke;
+            width: 99%;
+            height: 99%;
+            position: absolute;
+            left: -4%;
+            top: -6%;
+        }
+
+        .active .frame {
+            border: 15px solid red;
         }
 
         #circle {
@@ -91,19 +104,6 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
 
         #keyholeBg {
             transform: translate(-50%, -50%)
-        }
-
-        .frame {
-            border: 15px solid whitesmoke;
-            width: 99%;
-            height: 99%;
-            position: absolute;
-            left: -4%;
-            top: -6%;
-        }
-
-        .active .frame {
-            border: 15px solid red;
         }
 
 
@@ -145,8 +145,6 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             <div class="frame"></div>
         </div>
     </div>
-</div>
-<div class="grid-container">
     <div class="grid-50">
         <div id="content-keyhole" class="img-container">
             <div id="keyhole" class="fg">
@@ -165,6 +163,19 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             <div id="square" class="fg">
                 <img id="squareBg"
                      src="http://41.media.tumblr.com/cc1919fa686b1240ac7f8906687f612c/tumblr_nhn06pewkQ1ticazxo1_500.jpg">
+            </div>
+            <div class="frame"></div>
+        </div>
+    </div>
+    <div class="grid-50">
+        <div id="content-brand" class="img-container">
+            <div class="fg">
+                <img id="brandBg"
+                     src="http://41.media.tumblr.com/d16002f92bf213ed208121e86f8578c4/tumblr_nh4akzPqbx1ticazxo5_500.jpg">
+
+                <div id="brand" class="fg">
+                    <img src="brand.png">
+                </div>
             </div>
             <div class="frame"></div>
         </div>
@@ -209,6 +220,12 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             x = x - 10;
             $('#square2').css({'transform': "translate3d(" + x + "px, 0px, 0px)"});
             $('#squareBg2').css({'transform': "translate3d(" + -x + "px, 0px, 0px)"});
+        };
+
+        var setBrand = function (x, y) {
+            x = Math.min(78, Math.max(-78, x - imgX / 2));
+            y = Math.min(38, Math.max(-38, y - imgY / 2));
+            $('#brandBg').css({'transform': "translate3d(" + -x + "px, " + -y + "px, 0px)"});
         };
 
         var setKeyhole = function (x, y) {
@@ -283,7 +300,9 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
             {q: "#content-circle", fn: setCircle},
             {q: "#content-square", fn: setSquare},
             {q: "#content-square2", fn: setSquare2},
-            {q: "#content-keyhole", fn: setKeyhole}
+            {q: "#content-keyhole", fn: setKeyhole},
+            {q: "#content-brand", fn: setBrand}
+
         ]
 
         _.each(filters, function (filter) {
