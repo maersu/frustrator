@@ -174,17 +174,15 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
 <script>
 
     var calcRate = function (value, min, max) {
-
-                return Math.min(1, Math.max(0, (value - min) / (max - min)));
+                return (value - min) / (max - min);
             },
             imgX = 300,
             imgY = 225;
 
-
     $(document).ready(function () {
         var throttle = 40,
                 deviceOrientation,
-                halfRange = 8,
+                halfRange = 12,
                 oldPosition,
                 position,
                 filters,
@@ -253,6 +251,26 @@ https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
 
             absoluteX = imgX * calcRate(position.x, box.minX, box.maxX);
             absoluteY = imgY * calcRate(position.y, box.minY, box.maxY);
+
+            if (absoluteX > imgX) {
+                box.maxX = position.x;
+                box.minX = position.x - halfRange;
+                absoluteX = imgX;
+            } else if (absoluteX <= 0) {
+                box.maxX = position.x + halfRange;
+                box.minX = position.x;
+                absoluteX = 0;
+            }
+
+            if (absoluteY > imgY) {
+                box.maxY = position.y;
+                box.minY = position.y - halfRange;
+                absoluteY = imgY;
+            } else if (absoluteY <= 0) {
+                box.maxY = position.y + halfRange;
+                box.minY = position.y;
+                absoluteY = 0;
+            }
 
             currentFilter(absoluteX, absoluteY);
 
